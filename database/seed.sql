@@ -18,7 +18,7 @@ INSERT INTO destinations (name, city, geom) VALUES
 ('Konak Square', 'Izmir', ST_SetSRID(ST_MakePoint(27.1287, 38.4192), 4326)),
 
 -- Eskisehir
-('Odunpazari Houses', 'Eskisehir', ST_SetSRID(ST_MakePoint(30.5206, 39.7667), 4326));
+('Odunpazari Houses', 'Eskisehir', ST_SetSRID(ST_MakePoint(30.5206, 39.7667), 4326)),
 
 -- Antalya
 ('Konyaalti Beach', 'Antalya', ST_SetSRID(ST_MakePoint(30.6370, 36.8600), 4326)),
