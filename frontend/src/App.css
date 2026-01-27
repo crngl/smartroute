@@ -1,0 +1,95 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* SAYFA ARKA PLANI */
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0e1873, #203a43, #2c5364);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ANA KART */
+.app-container {
+  background: #ffffff;
+  padding: 32px 40px;
+  width: 380px;
+  border-radius: 14px;
+  box-shadow: 0 20px 45px rgba(132, 13, 13, 0.35);
+}
+
+/* BAŞLIKLAR */
+h2 {
+  text-align: center;
+  margin-bottom: 22px;
+  color: #ffffff;
+}
+
+/* FORM ALANLARI */
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: #ffffff;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+/* CHECKBOX */
+.checkbox-group {
+  margin-bottom: 18px;
+}
+
+.checkbox-group label {
+  font-weight: normal;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* BUTON */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #1e3c72;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #16305a;
+}
+
+/* RESULTS GÜNLER */
+.day-card {
+  background: #f4f6f8;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.day-card h3 {
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+/* BACK BUTONU */
+button:last-of-type {
+  margin-top: 16px;
+}
