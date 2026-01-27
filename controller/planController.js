@@ -1,4 +1,4 @@
-const tripPlanner = require('../logic/tripPlanner');
+const tripPlanner = require('../backend/logic/tripPlanner');
 
 /**
  * SmartRoute AI - Plan Controller

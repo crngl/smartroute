@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { createPlan } from "./api";// ✅ api.js burada
+import { createPlan } from "./api";
 
 function Plan({ onPlanGenerated }) {
   const [budget, setBudget] = useState("");
   const [days, setDays] = useState("");
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const interestOptions = [
+    { value: "culture", label: "🏛️ Culture" },
+    { value: "nature", label: "🌿 Nature" },
+    { value: "food", label: "🍽️ Food" },
+    { value: "adventure", label: "🏔️ Adventure" },
+    { value: "history", label: "🏺 History" },
+    { value: "beach", label: "🏖️ Beach" },
+  ];
 
   const toggleInterest = (value) => {
     setInterests((prev) =>
@@ -32,95 +41,95 @@ function Plan({ onPlanGenerated }) {
     const payload = {
       budget: budgetNum,
       days: daysNum,
-      interests, // DB seed'e göre: culture, nature...
+      interests,
     };
 
     setLoading(true);
     try {
-      // ✅ ŞİMDİLİK MOCK (backend hazır değilken)
-      const mockResponse = {
-        summary: { budget: budgetNum, totalCost: 280 },
-        plan: [
-          {
-            day: 1,
-            destination: "Istanbul Center",
-            activities: [{ name: "Galata Tower", category: "culture", cost: 200 }],
-          },
-          {
-            day: 2,
-            destination: "Ankara Center",
-            activities: [
-              {
-                name: "Museum of Anatolian Civilizations",
-                category: "culture",
-                cost: 80,
-              },
-            ],
-          },
-        ],
-      };
-
-      onPlanGenerated(mockResponse);
-
-      // ✅ BACKEND GELİNCE SADECE ŞU 2 SATIRI AÇACAKSIN:
-      // const data = await createPlan(payload);
-      // onPlanGenerated(data);
+      const data = await createPlan(payload);
+      onPlanGenerated(data);
     } catch (err) {
-      alert(err?.message || "Bir hata oluştu.");
+      alert(err?.message || "Plan oluşturulamadı.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Trip Planner</h2>
+    <form onSubmit={handleSubmit} className="plan-form">
+      <h2>🗺️ Trip Planner</h2>
 
-      <div style={{ marginBottom: 10 }}>
-        <label>Budget:</label>
+      <div style={{ marginBottom: 20 }}>
+        <label>💰 Budget (₺):</label>
         <input
           type="number"
           value={budget}
           onChange={(e) => setBudget(e.target.value)}
           min="1"
+          placeholder="500"
+          style={{
+            width: "100%",
+            padding: "8px",
+            fontSize: "16px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            boxSizing: "border-box",
+          }}
         />
       </div>
 
-      <div style={{ marginBottom: 10 }}>
-        <label>Days:</label>
+      <div style={{ marginBottom: 20 }}>
+        <label>📅 Days:</label>
         <input
           type="number"
           value={days}
           onChange={(e) => setDays(e.target.value)}
           min="1"
+          max="30"
+          placeholder="3"
+          style={{
+            width: "100%",
+            padding: "8px",
+            fontSize: "16px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+            boxSizing: "border-box",
+          }}
         />
       </div>
 
-      <div style={{ marginBottom: 10 }}>
-        <label>Interests:</label>
-        <div>
-          <label style={{ display: "block" }}>
-            <input
-              type="checkbox"
-              checked={interests.includes("culture")}
-              onChange={() => toggleInterest("culture")}
-            />
-            Culture
-          </label>
-
-          <label style={{ display: "block" }}>
-            <input
-              type="checkbox"
-              checked={interests.includes("nature")}
-              onChange={() => toggleInterest("nature")}
-            />
-            Nature
-          </label>
+      <div style={{ marginBottom: 20 }}>
+        <label>❤️ Interests:</label>
+        <div className="checkbox-group">
+          {interestOptions.map((option) => (
+            <label key={option.value} style={{ display: "block", marginBottom: "8px" }}>
+              <input
+                type="checkbox"
+                checked={interests.includes(option.value)}
+                onChange={() => toggleInterest(option.value)}
+              />
+              {option.label}
+            </label>
+          ))}
         </div>
       </div>
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Creating..." : "Create Plan"}
+      <button
+        type="submit"
+        disabled={loading}
+        style={{
+          width: "100%",
+          padding: "12px",
+          fontSize: "16px",
+          fontWeight: "bold",
+          backgroundColor: loading ? "#ccc" : "#007bff",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: loading ? "not-allowed" : "pointer",
+        }}
+      >
+        {loading ? "⏳ Creating..." : "🚀 Create Plan"}
       </button>
     </form>
   );

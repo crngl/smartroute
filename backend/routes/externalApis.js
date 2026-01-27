@@ -8,10 +8,22 @@ const router = express.Router();
 router.get("/distance", async (req, res) => {
   try {
     const { origin, destination } = req.query;
+
+    if (!origin || !destination) {
+      return res.status(400).json({
+        ok: false,
+        error: "Both 'origin' and 'destination' query parameters are required",
+      });
+    }
+
     const result = await getDistanceKmMin({ origin, destination });
     res.json({ ok: true, data: result });
   } catch (err) {
-    res.status(400).json({ ok: false, error: err.message });
+    console.error("Distance API error:", err.message);
+    res.status(400).json({
+      ok: false,
+      error: err.message || "Failed to calculate distance",
+    });
   }
 });
 
@@ -19,10 +31,32 @@ router.get("/distance", async (req, res) => {
 router.get("/weather", async (req, res) => {
   try {
     const { lat, lon } = req.query;
-    const result = await getCurrentWeather({ lat, lon });
+
+    if (lat === undefined || lon === undefined) {
+      return res.status(400).json({
+        ok: false,
+        error: "Both 'lat' and 'lon' query parameters are required",
+      });
+    }
+
+    const latNum = parseFloat(lat);
+    const lonNum = parseFloat(lon);
+
+    if (isNaN(latNum) || isNaN(lonNum)) {
+      return res.status(400).json({
+        ok: false,
+        error: "'lat' and 'lon' must be valid numbers",
+      });
+    }
+
+    const result = await getCurrentWeather({ lat: latNum, lon: lonNum });
     res.json({ ok: true, data: result });
   } catch (err) {
-    res.status(400).json({ ok: false, error: err.message });
+    console.error("Weather API error:", err.message);
+    res.status(400).json({
+      ok: false,
+      error: err.message || "Failed to fetch weather data",
+    });
   }
 });
 
