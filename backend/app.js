@@ -1,9 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const externalApis = require("./routes/externalApis");
 require('dotenv').config();
 
 const userRoutes = require('./routes/userRoutes');
+const planRoutes = require('./routes/planRoutes'); // SANA - Trip Planning
+const externalApis = require('./routes/externalApis'); // ESRA - External APIs
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -12,7 +13,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api", externalApis);
 
 // Request logging
 app.use((req, res, next) => {
@@ -21,7 +21,9 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes); // DILARA - User Management
+app.use('/api/plan', planRoutes); // SANA - Trip Planning
+app.use('/api', externalApis); // ESRA - External APIs (Google Maps, Weather)
 
 // Health check
 app.get('/', (req, res) => {
@@ -29,7 +31,7 @@ app.get('/', (req, res) => {
     message: '🚀 SmartRoute AI Backend',
     version: '1.0.0',
     status: 'running',
-    developer: 'Dilara Ünal',
+    developers: 'Dilara Ünal, Sana Dizmari, Ceren Göl, Zeynep Esra İdiz',
     timestamp: new Date().toISOString()
   });
 });
@@ -57,6 +59,6 @@ app.listen(PORT, () => {
   console.log('🚀 SmartRoute AI Backend');
   console.log(`📡 Server: http://localhost:${PORT}`);
   console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log('👤 Developer: Dilara Ünal');
+  console.log('👥 Team: Dilara, Sana, Ceren, Esra');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 });
